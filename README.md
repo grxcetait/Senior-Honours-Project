@@ -1,6 +1,6 @@
 # Senior Honours Project
 
-> This repository hold the contents of my Senior Honours Project: Data Science Techniques Applied To Cosmology
+This repository hold the contents of my Senior Honours Project: Data Science Techniques Applied To Cosmology
 
 ## Overview
 By observing the redshifted 21cm emission line emitted from neutral hydrogen, we can map its structure in 3D and infer the presence of the underlying dark matter density field. 
