@@ -5,26 +5,94 @@
 \begin{itemize}
     \item Last week Zhaoting mentioned I should add a multiprocessing pool to my code instead of using loops. Since I am running 100 realisations, this takes a while. He sent a link with an example I could follow. I tried to follow the example but I think since I am using Jupyter notebooks and I use different cells, it isn't running properly.
     \item I managed to find another package called joblib which does roughly the same thing and allows me to run code in parallel. I also down the tqdm package which creates a progress bar in my loops to allow me to keep track of its progress and how fast the code took to run.
-    \item I implemented this these two packages into my notebook 1 function I created last week. Before implementing joblib, my loop of 100 realisations took __ minutes to run. Now, it takes __ minutes to run.
+    \item I implemented this these two packages into my notebook 1 function I created last week. Before implementing joblib, my loop of 100 realisations took over 3 minutes to run. Now, it takes 1.3 minutes to run.
 \end{itemize}
 
 \subsection{Wednesday 28th January}
 
 \begin{itemize}
     \item I got sent notebook 2 to work on this week. This notebook follows on from notebook 1, which generates a neutral hydrogen map, and adds a foreground to the map. The notebook takes me through the steps on removing the foreground and its effects on the power spectrum.
-    \item After adding the foreground to the map, which is done by simulating the signal and foreground separately and adding them together, we can see the difference between the map before and after the foreground has been added. 
-    \item The colour scales are difference and the foregrounds are 4 orders of magnitude larger than the HI. We can also see they are different in the frequency structure.
-    \item We can plot the frequency-frequency covariance which is dominated by the foregrounds.
-    \item We can separately plot the HI signal.
-    \item Foregrounds creates eigenvalues that are distinctly large. We can see the first 3 [0, 1, 2] modes are very large and then it plateaus. So, we remove the first 3 modes. 
-    \item We can compare the 1D power spectra before and after foreground removal. We can see that the foreground cleaned signal has signal loss compared to the original, especially at small k.
-    \item We can also plot the cylindrical power spectrum. Here, we can see the main signal loss happens at low k para.
-    \item Then, I got given a few takss to think about before our next meeting:
+    \item After adding the foreground to the map, which is done by simulating the signal and foreground separately and adding them together, we can see the difference between the map before and after the foreground has been added. This can be seen in Figure 7 and 8.
+
+\begin{figure}[htb!]
+    \centering
+    % Left side image
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/hydrogen_map_w_foreground.pdf}
+        \caption{Hydrogen map with foregrounds.}
+        \label{fig:map_w_foreground}
+    \end{minipage}
+    \hfill % Adds spacing between the two images
+    % Right side image
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/hydrogen_map_wo_foreground.pdf}
+        \caption{Hydrogen map without foregrounds.}
+        \label{fig:map_wo_foreground}
+    \end{minipage}
+\end{figure}
+
+    \item The colour scales are difference and the foregrounds are 4 orders of magnitude larger than the HI. We can also see they are different in the frequency structure. This can be seen in Figure 9.
+    \item We can plot the frequency-frequency covariance which is dominated by the foregrounds. This can be seen in Figure 10.
+    \item We can separately plot the HI signal. This can be seen in Figure 11.
+    \item Foregrounds creates eigenvalues that are distinctly large. We can see the first 3 [0, 1, 2] modes are very large and then it plateaus. So, we remove the first 3 modes. This can be seen in Figure 12.
+
+\begin{figure}[htb!]
+    \centering
+    % Global Signal / Frequency vs Temperature
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/frequency_vs_temperature.pdf}
+        \caption{Frequency versus temperature plot of the foreground and HI signal. The foregrounds are 4 orders of magnitude larger than HI. We can also see they are different in frequency structure.}
+        \label{fig:freq_temp}
+    \end{minipage}
+    \hfill
+    % Covariance Matrix
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/frequency_frequency_covariance.pdf}
+        \caption{Frequency-frequency covariance matrix which is dominated by the foregrounds.}
+        \label{fig:freq_covariance}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.45\linewidth]{outputs//week3/HI_covariance.pdf}
+    \caption{HI covariance signal which is plotted separately from the foregrounds.}
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.45\linewidth]{outputs//week3/eigenvalue_vs_eigenvalue_index.pdf}
+    \caption{Eigenvalues of the total signal. We can see the first 3 [0, 1, 2] modes are very large and then it plateaus. These correspond to the foregrounds. }
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.45\linewidth]{outputs//week3/1D_power_spectra_comparison.pdf}
+    \caption{The 1D power spectra before and after foreground removal. We can see that the foreground cleaned signal has signal loss compared to the original, especially at small k.}
+    \label{fig:placeholder}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{outputs//week3/cylindrical_power_spectrum_None_None.pdf}
+    \caption{The cylindrical power spectrum. We can see the main signal loss happens at low k para}
+    \label{fig:placeholder}
+\end{figure}
+
+    \item We can compare the 1D power spectra before and after foreground removal. We can see that the foreground cleaned signal has signal loss compared to the original, especially at small k. This can be seen in Figure 13.
+    \item We can also plot the cylindrical power spectrum. Here, we can see the main signal loss happens at low k para. This can be seen in Figure 14.
+    \item Then, I got given a few tasks to think about before our next meeting:
     \begin{itemize}
         \item What is k para and how does it relate to the frequency structure of the foreground?
         \begin{itemize}
             \item K para is the modes along the redshift/frequency direction. It probes structures along the frequency axis? Small k para means large-scale variations in frequency which are smooth in frequency. This is the galactic synchrotron, free-free emission, and point sources). Large k para means rapid variations in frequency which is the HI signal with more variations.
-            \item This kind of makes sense to me but it is still not compeltely intuitive. I think I will get a betetr grasp and understanding of this as my project prgresses. But I should try to read through parts of the papers again and get a better understanding of this now I have attempted this notebook.
+            \item This kind of makes sense to me but it is still not completely intuitive. I think I will get a better grasp and understanding of this as my project progresses. But I should try to read through parts of the papers again and get a better understanding of this now I have attempted this notebook.
         \end{itemize}
         \item In mock.get\_1d\_power, you can select what k-modes are getting averaged into the 1D. See this link: https://meer21cm.readthedocs.io/en/latest/meer21cm.html\#meer21cm.power.PowerSpectrum.get\_1d\_power. Read the documentation and choose the k\_perppara\_min and k\_perppara\_max to select modes that give good agreement. Again, run multiple seeds.
         \begin{itemize}
@@ -32,10 +100,105 @@
             \item I then created another function which called the one above to generate 100 realisations. Within this function, I also used the tdqm package to time how long this took to run. I then returned a list of all the necessary resulting data.
             \item Then, I created three further functions which took in the necessary data and plotted various power spectrums. In these functions, I calculated the needed values and then took the means and standard deviations. I had functions that now could easily plot the 1D log power spectrum, the 1D power spectrum and the cylindrical power spectrum. 
             \item First, I made sure all of my functions worked as expected by running them as they are without any inputs for k\_perppara\_min and k\_perppara\_max and they worked as expected! Then, by observing the cylindrical power spectrum, I tried different inputs for k\_perppara\_min and k\_perppara\_max.
-            \item Since the main singal loss happens at low k para, I only tried inputs for  k\_perppara\_min and not k\_perppara\_max. I tried four different sets of values for  k\_perppara\_min (where the first element is minimum k\_perp and the second element is k\_para: [0, 0.1], [0.1, 0.1], [0.05, 0.1], [0.025, 0.1]. The resulting 1D power spectrums can be seen.
+            \item Since the main singal loss happens at low k para, I only tried inputs for  k\_perppara\_min and not k\_perppara\_max. I tried four different sets of values for  k\_perppara\_min (where the first element is minimum k\_perp and the second element is minimum k\_para: [0, 0.1], [0.1, 0.1], [0.05, 0.1], [0.025, 0.1]. The resulting 1D power spectrums can be seen in Figures 15-24.
         \end{itemize}
     \end{itemize}
 \end{itemize}
+
+\begin{figure}[htb!]
+    \centering
+    % Log-Log Power Spectrum
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/1d_power_spectrum_None_None.pdf}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a linear scale with 100 realisations, without any k parameters removed.}
+        \label{fig:pspec_log}
+    \end{minipage}
+    \hfill
+    % Linear Power Spectrum
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/1d_log_power_spectrum_None_None.pdf}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a logarithmic scale with 100 realisations, without any k parameters removed.}
+        \label{fig:pspec_linear}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    % Linear Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/1d_power_spectrum_0_0.1.pdf}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a linear scale with 100 realisations, with minimum k\_perp of 0 and minimum k\_para of 0.1.}
+        \label{fig:pspec_lin_0_01}
+    \end{minipage}
+    \hfill
+    % Log Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{outputs/week3/1d_log_power_spectrum_0_0.1.pdf}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a logarithmic scale with 100 realisations, with minimum k\_perp of 0 and minimum k\_para of 0.1.}
+        \label{fig:pspec_log_0_01}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    % Log Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{"outputs/week3/1d_power_spectrum_[0.1, 0.1]_None.pdf"}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a linear scale with 100 realisations, with minimum k\_perp of 0.1 and minimum k\_para of 0.1.}
+        \label{fig:pspec_log_01_01}
+    \end{minipage}
+    \hfill
+    % Linear Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{"outputs/week3/1d_log_power_spectrum_[0.1, 0.1]_None.pdf"}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a logarithmic scale with 100 realisations, with minimum k\_perp of 0.1 and minimum k\_para of 0.1.}
+        \label{fig:pspec_lin_01_01}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[htb!]
+    \centering
+    % Log Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{"outputs/week3/1d_power_spectrum_[0.05, 0.1]_None.pdf"}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a linear scale with 100 realisations, with minimum k\_perp of 0.05 and minimum k\_para of 0.1.}
+        \label{fig:log_pspec_005_01}
+    \end{minipage}
+    \hfill
+    % Linear Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{"outputs/week3/1d_log_power_spectrum_[0.05, 0.1]_None.pdf"}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a logarithmic scale with 100 realisations, with minimum k\_perp of 0.05 and minimum k\_para of 0.1.}
+        \label{fig:lin_pspec_005_01}
+    \end{minipage}
+\end{figure}
+
+https://www.overleaf.com/project\begin{figure}[htb!]
+    \centering
+    % Log Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{"outputs/week3/1d_power_spectrum_[0.025, 0.1]_None.pdf"}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a linear scale with 100 realisations, with minimum k\_perp of 0.025 and minimum k\_para of 0.1.}
+        \label{fig:log_pspec_0025_01}
+    \end{minipage}
+    \hfill
+    % Linear Plot
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{"outputs/week3/1d_log_power_spectrum_[0.025, 0.1]_None.pdf"}
+        \caption{Comparing the 1D power spectrum before and after foreground removal on a linear scale with 100 realisations, with minimum k\_perp of 0.025 and minimum k\_para of 0.1.}
+        \label{fig:lin_pspec_0025_01}
+    \end{minipage}
+\end{figure}
 
 \subsection{Thursday 29th January}
 
