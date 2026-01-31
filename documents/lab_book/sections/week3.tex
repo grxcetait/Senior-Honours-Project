@@ -1,1 +1,85 @@
 \section{Week 3: 26th January - 1st February 2026}
+
+\subsection{Tuesday 27th January}
+
+\begin{itemize}
+    \item Last week Zhaoting mentioned I should add a multiprocessing pool to my code instead of using loops. Since I am running 100 realisations, this takes a while. He sent a link with an example I could follow. I tried to follow the example but I think since I am using Jupyter notebooks and I use different cells, it isn't running properly.
+    \item I managed to find another package called joblib which does roughly the same thing and allows me to run code in parallel. I also down the tqdm package which creates a progress bar in my loops to allow me to keep track of its progress and how fast the code took to run.
+    \item I implemented this these two packages into my notebook 1 function I created last week. Before implementing joblib, my loop of 100 realisations took __ minutes to run. Now, it takes __ minutes to run.
+\end{itemize}
+
+\subsection{Wednesday 28th January}
+
+\begin{itemize}
+    \item I got sent notebook 2 to work on this week. This notebook follows on from notebook 1, which generates a neutral hydrogen map, and adds a foreground to the map. The notebook takes me through the steps on removing the foreground and its effects on the power spectrum.
+    \item After adding the foreground to the map, which is done by simulating the signal and foreground separately and adding them together, we can see the difference between the map before and after the foreground has been added. 
+    \item The colour scales are difference and the foregrounds are 4 orders of magnitude larger than the HI. We can also see they are different in the frequency structure.
+    \item We can plot the frequency-frequency covariance which is dominated by the foregrounds.
+    \item We can separately plot the HI signal.
+    \item Foregrounds creates eigenvalues that are distinctly large. We can see the first 3 [0, 1, 2] modes are very large and then it plateaus. So, we remove the first 3 modes. 
+    \item We can compare the 1D power spectra before and after foreground removal. We can see that the foreground cleaned signal has signal loss compared to the original, especially at small k.
+    \item We can also plot the cylindrical power spectrum. Here, we can see the main signal loss happens at low k para.
+    \item Then, I got given a few takss to think about before our next meeting:
+    \begin{itemize}
+        \item What is k para and how does it relate to the frequency structure of the foreground?
+        \begin{itemize}
+            \item K para is the modes along the redshift/frequency direction. It probes structures along the frequency axis? Small k para means large-scale variations in frequency which are smooth in frequency. This is the galactic synchrotron, free-free emission, and point sources). Large k para means rapid variations in frequency which is the HI signal with more variations.
+            \item This kind of makes sense to me but it is still not compeltely intuitive. I think I will get a betetr grasp and understanding of this as my project prgresses. But I should try to read through parts of the papers again and get a better understanding of this now I have attempted this notebook.
+        \end{itemize}
+        \item In mock.get\_1d\_power, you can select what k-modes are getting averaged into the 1D. See this link: https://meer21cm.readthedocs.io/en/latest/meer21cm.html\#meer21cm.power.PowerSpectrum.get\_1d\_power. Read the documentation and choose the k\_perppara\_min and k\_perppara\_max to select modes that give good agreement. Again, run multiple seeds.
+        \begin{itemize}
+            \item Upon reading this task, my first thoughts were to take my function that I created in notebook 1 and alter it to take in the new inputs of k\_perppara\_min and k\_perppara\_max. I also had to input the foreground map, since I didn't have to create it new each realisation. I then passed the resulting data with and without foreground removal.
+            \item I then created another function which called the one above to generate 100 realisations. Within this function, I also used the tdqm package to time how long this took to run. I then returned a list of all the necessary resulting data.
+            \item Then, I created three further functions which took in the necessary data and plotted various power spectrums. In these functions, I calculated the needed values and then took the means and standard deviations. I had functions that now could easily plot the 1D log power spectrum, the 1D power spectrum and the cylindrical power spectrum. 
+            \item First, I made sure all of my functions worked as expected by running them as they are without any inputs for k\_perppara\_min and k\_perppara\_max and they worked as expected! Then, by observing the cylindrical power spectrum, I tried different inputs for k\_perppara\_min and k\_perppara\_max.
+            \item Since the main singal loss happens at low k para, I only tried inputs for  k\_perppara\_min and not k\_perppara\_max. I tried four different sets of values for  k\_perppara\_min (where the first element is minimum k\_perp and the second element is k\_para: [0, 0.1], [0.1, 0.1], [0.05, 0.1], [0.025, 0.1]. The resulting 1D power spectrums can be seen.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Thursday 29th January}
+
+\subsubsection{Meeting 3: Zhaoting and Alkistis}
+
+By this point I had already finished reading all three papers so I asked any other questions I had on them. I mainly had questions on the first paper on the "Gaussian Process Regression for foreground removal in HI intensity." My memories form the answers and our discussions are written below straight after our meeting so some may be incorrect.
+
+\begin{itemize}
+    \item I asked again about the speckled background in Figure 1. 
+    \begin{itemize}
+        \item They compared this to a head toss. The value obtained will be one or another but the average will be zero. The average value will be very very close to zero but not quite. So, there will be noise around the value we expect but we are very certain it is this value. I think?
+    \end{itemize}
+\item Is it better to be more or less correlated in frequency?
+\begin{itemize}
+    \item Seen in Figure 3, the left plot is less correlated (sharper diagonal line) and the right plot is more correlated (wider diagonal line). These are both useful!
+    \item The less correlated line is useful for the HI signal while the more correlated line is useful for the smooth foreground. 
+\end{itemize}
+\item I don't really understand the concept of indistinguishable noise.
+\begin{itemize}
+    \item It is essentially combined with the data. We don't necessarily want to remove it straight from the beginning, we just want to understand it and how to model it. 
+    \item So in the paper, they found that it is understood and modelled well with other signals.
+    \item At the end, they make sure to remove it from the final data, but for now it is okay to just model and understand it correctly.
+\end{itemize}
+\item What is under and over-cleaning?
+\begin{itemize}
+    \item Under-cleaning is when you remove too little of the foreground.
+    \item Over-cleaning is when you remove too much of the foreground. 
+    \item These can be seen in notebook 2!
+\end{itemize}
+\end{itemize}
+
+Also discussed notebook 1 
+\begin{itemize}
+    \item Showed my updated code from notebook 1 where Zhaoting recommended to use multiprocessing pool to speed up my loops. 
+    \item He sent a link to an example but I couldn't get the multiprocessing package to work. So, I found this other package that I think works the same? Because my code ran faster!
+    \item However, he said I should check if it actually is using for CPU in "Activity Monitor" app on my MacBook to see if it is using more CPU>
+    \item Zhaoting said he'll send me another example on how to use the Multiprocessing package he recommended. He said the issue is probably that I need to write the function in another python file and import it in. 
+    \item Next time: try the Multiprocessing package again! and check using the "Activity Monitor" app if my found package is working correctly
+\end{itemize}
+
+Also discussed notebook 2
+\begin{itemize}
+    \item Went over what I did. I think I did the task correctly? They seemed pleased with my progress and the work I did so far.
+    \item I was a bit concerned that I wasn't able to remove the k values from the cylindrical power spectrum but that is as expected. I am not removing anything from that, I am just using it to decide what values to remove.
+    \item K is the x, y, z coordinates added in quadrature. K para is the x and y, k perp is the z coordinates. K para and perp can be seen as the fourier transform of the x, y, z coordinates. X, y coordinates are the are the sky coordinates and the z coordinates are related to the frequency.
+    \item Next time: gain a bit more of an intuitive understanding of the maths and stuff behind this code. Understand more on what k para really represents. Why is it important and why does remove the small values make such a difference on the code?
+\end{itemize}
